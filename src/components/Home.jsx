@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import HomePattern from "./HomePattern";
+import MovieLoopPattern from "./MovieLoopPattern";
+import ObjectDetails from "./ObjectDetails";
 
 function Home(props) {
+  let active = props.isActive;
   const [popularMovies, setPopularMovies] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const apiKey = props.apiKey;
+  const [objectDetails, setObjectDetails] = useState(undefined);
 
   let apiPopularMovies =
     "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
@@ -35,20 +38,33 @@ function Home(props) {
   }, [popularMovies]);
 
   const renderHomeComponent = () => {
-    const movieList = popularMovies.results.map((movie, index) => (
-      <HomePattern
-        key={index}
-        overview={movie.overview}
-        title={movie.title}
-        img={movie.backdrop_path}
-        release={movie.release_date}
-      />
-    ));
+    const movieList = popularMovies.results.map((movie, index) => {
+      return (
+        <div key={index} className="col-md-3 pt-2 movie-pattern position-relative">
+          <MovieLoopPattern
+            onClick={() => {
+              setObjectDetails(movie.id);
+            }}
+            overview={movie.overview}
+            title={movie.title}
+            img={movie.backdrop_path}
+            release={movie.release_date}
+          />
+        </div>
+      );
+    });
     return <div className="row">{movieList}</div>;
   };
 
   return (
-    <div className="container-xl">
+    <div className={active ? "container-xl" : "none"}>
+      <ObjectDetails
+        onClose={() => {
+          setObjectDetails(undefined);
+        }}
+        apiKey={apiKey}
+        objectDetails={objectDetails}
+      />
       <div className="row">
         <div className="col">
           <p className="text-center text-white bagel h5 pt-4">
@@ -59,6 +75,7 @@ function Home(props) {
           </p>
         </div>
       </div>
+
       {isLoaded ? renderHomeComponent() : loadingScreen()}
     </div>
   );

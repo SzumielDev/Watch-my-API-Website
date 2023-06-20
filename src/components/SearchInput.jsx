@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
-import SearchList from "./SearchList";
+import SearchResult from "./SearchResult";
+import ObjectDetails from "./ObjectDetails";
 
 function SearchInput(props) {
+  const apiKey = props.apiKey;
   const [inputValue, setInputValue] = useState();
   const [requestData, setRequestData] = useState();
   const [isActive, setIsActive] = useState(false);
   const [searchResults, setSearchResults] = useState();
-  const apiKey = props.apiKey;
+  const [objectDetails, setObjectDetails] = useState(undefined);
 
   const handleChange = (e) => {
     setInputValue(e.target.value || undefined);
   };
-
-  const handleInputBlur = () => {
-    setInputValue(null);
-  }
 
   useEffect(() => {
     handleIsInputEmpty();
@@ -50,13 +48,25 @@ function SearchInput(props) {
     } else {
       setSearchResults(null);
     }
-  }, [requestData])
+  }, [requestData]);
 
   const renderSearchList = () => {
-      const searchComponentArray = requestData.results.slice(0, 3).map((movie, index) => (
-        <SearchList key={index} title={movie.title} img={movie.poster_path} />
-      ));
-      setSearchResults(searchComponentArray);
+    const searchComponentArray = requestData.results
+      .slice(0, 3)
+      .map((movie, index) => {
+        return (
+          <div key={index}>
+            <SearchResult
+              onClick={() => {
+                setObjectDetails(movie.id);
+              }}
+              title={movie.title}
+              img={movie.poster_path}
+            />
+          </div>
+        );
+      });
+    setSearchResults(searchComponentArray);
   };
 
   return (
@@ -68,12 +78,22 @@ function SearchInput(props) {
           placeholder="Search movie"
           aria-label="Search"
           onChange={handleChange}
-          onBlur={handleInputBlur}
         />
       </form>
-      <div className={isActive ? "position-absolute w-100 search-list-custom" : "none"}>
-        {searchResults} 
+      <div
+        className={
+          isActive ? "position-absolute w-100 search-list-custom" : "none"
+        }
+      >
+        {searchResults}
       </div>
+      <ObjectDetails
+        onClose={() => {
+          setObjectDetails(undefined);
+        }}
+        apiKey={apiKey}
+        objectDetails={objectDetails}
+      />
     </div>
   );
 }
