@@ -75,11 +75,7 @@ function ObjectDetails(props) {
   };
 
   const checkBudget = () => {
-    if (budget == 0) {
-      return "Unknown";
-    } else {
-      return budget;
-    }
+    return budget == 0 ? "Unknown" : budget;
   };
 
   const renderCloseButton = () => {
@@ -95,6 +91,55 @@ function ObjectDetails(props) {
     );
   };
 
+  const removeMovieFromFavorite = (array, id) => {
+    const index = array.indexOf(id);
+    if (index > -1) {
+      array.splice(index, 1);
+    }
+    return array;
+  }
+
+  const removeThisMovieFromFavoriteList = () => {
+    const storage = JSON.parse(localStorage.getItem("favorite"));
+    const updateStorage = removeMovieFromFavorite(storage, objectId);
+
+    localStorage.removeItem("favorite");
+    localStorage.setItem(
+      "favorite",
+      JSON.stringify(updateStorage)
+    );
+    alert(title + "has been removed from favorite list.");
+  }
+
+  const addMovieToFavoriteList = () => {
+    const storedFavorites = JSON.parse(
+      localStorage.getItem("favorite")
+    );
+    let newFavoriteArray = [];
+    let generateStorage = [];
+
+    if (storedFavorites === null) {
+      generateStorage.push(objectId);
+      localStorage.setItem(
+        "favorite",
+        JSON.stringify(generateStorage)
+      );
+      alert(title + " has been added to your favorite list.");
+    } else {
+      if (storedFavorites.includes(objectId)) {
+        alert(title + " is allready in your favorite list.");
+      } else {
+        newFavoriteArray = storedFavorites;
+        newFavoriteArray.push(objectId);
+        localStorage.setItem(
+          "favorite",
+          JSON.stringify(newFavoriteArray)
+        );
+        alert(title + " has been added to your favorite list.");
+      }
+    }
+  }
+
   const renderComponent = () => {
     return (
       <div className="container pt-3 pb-5 object-details-container">
@@ -104,32 +149,7 @@ function ObjectDetails(props) {
             <img className="objectDetailsImg rounded" src={poster} />
             <button
               onClick={() => {
-                const storedFavorites = JSON.parse(
-                  localStorage.getItem("favorite")
-                );
-                let newFavoriteArray = [];
-                let generateStorage = [];
-
-                if (storedFavorites === null) {
-                  generateStorage.push(objectId);
-                  localStorage.setItem(
-                    "favorite",
-                    JSON.stringify(generateStorage)
-                  );
-                  alert(title + " has been added to your favorite list.");
-                } else {
-                  if (storedFavorites.includes(objectId)) {
-                    alert(title + " is allready in your favorite list.");
-                  } else {
-                    newFavoriteArray = storedFavorites;
-                    newFavoriteArray.push(objectId);
-                    localStorage.setItem(
-                      "favorite",
-                      JSON.stringify(newFavoriteArray)
-                    );
-                    alert(title + " has been added to your favorite list.");
-                  }
-                }
+                addMovieToFavoriteList();
               }}
               type="button"
               className="btn btn-success w-100 mt-5"
@@ -138,8 +158,7 @@ function ObjectDetails(props) {
             </button>
             <button
               onClick={() => {
-                localStorage.removeItem("favorite");
-                console.log("Usunięto storage");
+                removeThisMovieFromFavoriteList();
               }}
               type="button"
               className="btn btn-danger w-100 mt-5"

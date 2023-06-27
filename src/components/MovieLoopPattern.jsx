@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import nullPoster from "../resources/images/null.jpg";
 
 function MovieLoopPattern(props) {
   const [isActive, setIsActive] = useState(true);
@@ -8,6 +9,8 @@ function MovieLoopPattern(props) {
   let shortTitle = title;
   let overview = props.overview;
   let release = props.release;
+  let img;
+
   const monthNames = {
     "01": "January",
     "02": "February",
@@ -29,6 +32,12 @@ function MovieLoopPattern(props) {
 
   if (overview.length > 130) {
     overview = overview.slice(0, 130) + "...";
+  }
+
+  if (props.img === null) {
+    img = nullPoster;
+  } else {
+    img = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + props.img;
   }
 
   const convertDate = () => {
@@ -64,7 +73,7 @@ function MovieLoopPattern(props) {
                 ? "rounded mx-auto d-block max shadow-sm"
                 : "rounded mx-auto d-block max shadow-sm opacity"
             }
-            src={"https://image.tmdb.org/t/p/w300_and_h450_bestv2" + props.img}
+            src={img}
           />
           <p className="text-center text-white castoro title mb-0 pt-3">
             {shortTitle}
