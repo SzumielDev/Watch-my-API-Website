@@ -99,6 +99,9 @@ function Favorite(props) {
         onClose={() => {
           setObjectDetails(undefined);
         }}
+        onRemove={() => {
+          
+        }}
         apiKey={apiKey}
         objectDetails={objectDetails}
       />

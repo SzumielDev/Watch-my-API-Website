@@ -91,39 +91,14 @@ function ObjectDetails(props) {
     );
   };
 
-  const removeMovieFromFavorite = (array, id) => {
-    const index = array.indexOf(id);
-    if (index > -1) {
-      array.splice(index, 1);
-    }
-    return array;
-  }
-
-  const removeThisMovieFromFavoriteList = () => {
-    const storage = JSON.parse(localStorage.getItem("favorite"));
-    const updateStorage = removeMovieFromFavorite(storage, objectId);
-
-    localStorage.removeItem("favorite");
-    localStorage.setItem(
-      "favorite",
-      JSON.stringify(updateStorage)
-    );
-    alert(title + "has been removed from favorite list.");
-  }
-
   const addMovieToFavoriteList = () => {
-    const storedFavorites = JSON.parse(
-      localStorage.getItem("favorite")
-    );
+    const storedFavorites = JSON.parse(localStorage.getItem("favorite"));
     let newFavoriteArray = [];
     let generateStorage = [];
 
     if (storedFavorites === null) {
       generateStorage.push(objectId);
-      localStorage.setItem(
-        "favorite",
-        JSON.stringify(generateStorage)
-      );
+      localStorage.setItem("favorite", JSON.stringify(generateStorage));
       alert(title + " has been added to your favorite list.");
     } else {
       if (storedFavorites.includes(objectId)) {
@@ -131,14 +106,28 @@ function ObjectDetails(props) {
       } else {
         newFavoriteArray = storedFavorites;
         newFavoriteArray.push(objectId);
-        localStorage.setItem(
-          "favorite",
-          JSON.stringify(newFavoriteArray)
-        );
+        localStorage.setItem("favorite", JSON.stringify(newFavoriteArray));
         alert(title + " has been added to your favorite list.");
       }
     }
-  }
+  };
+
+  const removeMovieFromFavorite = (array, id) => {
+    const index = array.indexOf(id);
+    if (index > -1) {
+      array.splice(index, 1);
+    }
+    return array;
+  };
+
+  const removeThisMovieFromFavoriteList = () => {
+    const storage = JSON.parse(localStorage.getItem("favorite"));
+    const updateStorage = removeMovieFromFavorite(storage, objectId);
+
+    localStorage.removeItem("favorite");
+    localStorage.setItem("favorite", JSON.stringify(updateStorage));
+    alert(title + "has been removed from favorite list.");
+  };
 
   const renderComponent = () => {
     return (
