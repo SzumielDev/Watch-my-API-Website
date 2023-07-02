@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import nullPoster from "../resources/images/null.jpg";
+import nullPoster from "../../resources/images/null.jpg";
 
 function MovieLoopPattern(props) {
   const [isActive, setIsActive] = useState(true);

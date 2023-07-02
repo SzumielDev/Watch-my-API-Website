@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import nullPoster from "../resources/images/null.jpg";
+import nullPoster from "../../resources/images/null.jpg";
 
 function ObjectDetails(props) {
   let objectId = props.objectDetails;

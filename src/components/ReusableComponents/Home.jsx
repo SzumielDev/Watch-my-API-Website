@@ -57,7 +57,7 @@ function Home(props) {
   };
 
   return (
-    <div className={active ? "container-xl" : "none"}>
+    <div className="container-xl">
       <ObjectDetails
         onClose={() => {
           setObjectDetails(undefined);

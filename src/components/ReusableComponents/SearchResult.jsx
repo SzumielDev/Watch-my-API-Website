@@ -1,5 +1,5 @@
 import React from "react";
-import nullPoster from "../resources/images/null.jpg";
+import nullPoster from "../../resources/images/null.jpg";
 
 function SearchResult(props) {
 
