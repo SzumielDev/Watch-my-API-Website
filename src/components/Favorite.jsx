@@ -5,24 +5,31 @@ import Menu from "./ReusableComponents/Menu";
 import Footer from "./ReusableComponents/Footer";
 import RemoveFavoriteListButton from "./ReusableComponents/RemoveFavoriteListButton";
 
-function Favorite() {
-  const apiKey = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNGIzM2JmYmZhMjhiN2MwYmVjODMwMzU4YmU2YWZiMyIsInN1YiI6IjY0N2U0ZTAwY2Y0YjhiMDBhODc4YzAwNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.jcw-EQTEaHzMLTHRtaLU1yvE2AV8o7xPH4_aDLhNR1c",
-    },
-  };
+function Favorite(props) {
+  const apiKey = props.apiKey;
   const [objectDetails, setObjectDetails] = useState(undefined);
   const [storedFavorites, setStoredFavorites] = useState(JSON.parse(localStorage.getItem("favorite")));
   const [favoriteDataArray, setFavoriteDataArray] = useState([]);
-
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     tryToRenderComponent();
   }, [storedFavorites])
+
+  useEffect(() => {
+    if (storedFavorites == undefined) {
+      setIsReady(true);
+    }
+  }, [storedFavorites]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (JSON.parse(localStorage.getItem("favorite")) != storedFavorites) {
+        setStoredFavorites(JSON.parse(localStorage.getItem("favorite")));
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  });
 
   const tryToRenderComponent = async () => {
     if (storedFavorites != undefined) {
@@ -32,10 +39,8 @@ function Favorite() {
           const data = await downloadDataFromApi(id);
           pushNewDataToArray(data, basicArray);
         }
-
-        setIsReady(true);
         setFavoriteDataArray(basicArray);
-
+        setIsReady(true);
       } catch (error) {
         console.error(error);
       }
@@ -106,13 +111,12 @@ function Favorite() {
 
   return (
     <div className="bg-custom">
-      <Menu />
-      <div className="container-xl min-vh-100" style={{ minWidth: "100%" }}>
+      <Menu apiKey={apiKey} />
+      <div className="container-xl min-vh-100">
         <ObjectDetails
           onClose={() => {
             setObjectDetails(undefined);
           }}
-          onRemove={() => {}}
           apiKey={apiKey}
           objectDetails={objectDetails}
         />

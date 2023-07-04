@@ -126,7 +126,7 @@ function ObjectDetails(props) {
 
     localStorage.removeItem("favorite");
     localStorage.setItem("favorite", JSON.stringify(updateStorage));
-    alert(title + "has been removed from favorite list.");
+    alert(title + " has been removed from favorite list.");
   };
 
   const renderComponent = () => {

@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import MovieLoopPattern from "./MovieLoopPattern";
 import ObjectDetails from "./ObjectDetails";
 
-function Home(props) {
-  let active = props.isActive;
+function MostPopular(props) {
+  const apiKey = props.apiKey;
   const [popularMovies, setPopularMovies] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const apiKey = props.apiKey;
   const [objectDetails, setObjectDetails] = useState(undefined);
 
   let apiPopularMovies =
@@ -81,4 +80,4 @@ function Home(props) {
   );
 }
 
-export default Home;
+export default MostPopular;
