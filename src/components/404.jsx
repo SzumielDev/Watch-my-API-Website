@@ -18,7 +18,7 @@ function Empty() {
                 404
               </h1>
               <h3 className="text-center text-white oswald">
-                PAGE NOT DOUND
+                PAGE NOT FOUND
               </h3>
             </div>
           </div>
