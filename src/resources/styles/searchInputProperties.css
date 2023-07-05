@@ -21,3 +21,19 @@
   input[type="number"] {
     -moz-appearance: textfield;
   }
+
+  .mobile-serach {
+    display: none;
+  }
+
+  @media screen and (max-width: 575px) {
+    .pc-serach {
+      display: none;
+    }
+    .mobile-serach {
+      display: block;
+    }
+    .mobile-img-result {
+      max-width: 100px;
+    } 
+  }
