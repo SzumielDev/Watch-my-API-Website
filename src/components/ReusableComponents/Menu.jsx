@@ -28,7 +28,7 @@ function Menu(props) {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link to="/"><button className="nav-link">HOME</button></Link>
+                <Link to="/Watch-my-API-Website"><button className="nav-link">HOME</button></Link>
               </li>
               <li className="nav-item">
                 <Link to="/favorite"><button className="nav-link">FAVORITE</button></Link>
