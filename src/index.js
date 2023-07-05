@@ -23,6 +23,7 @@ root.render(
     <React.StrictMode>
       <Routes>
         <Route exact path="/" element={<Home apiKey={apiKey} />} />
+        <Route exact path="/Watch-my-API-Website" element={<Home apiKey={apiKey} />} />
         <Route exact path="/favorite" element={<Favorite apiKey={apiKey} />} />
         <Route path="*" element={<Empty />} />
       </Routes>
