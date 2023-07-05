@@ -8,13 +8,15 @@ import RemoveFavoriteListButton from "./ReusableComponents/RemoveFavoriteListBut
 function Favorite(props) {
   const apiKey = props.apiKey;
   const [objectDetails, setObjectDetails] = useState(undefined);
-  const [storedFavorites, setStoredFavorites] = useState(JSON.parse(localStorage.getItem("favorite")));
+  const [storedFavorites, setStoredFavorites] = useState(
+    JSON.parse(localStorage.getItem("favorite"))
+  );
   const [favoriteDataArray, setFavoriteDataArray] = useState([]);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     tryToRenderComponent();
-  }, [storedFavorites])
+  }, [storedFavorites]);
 
   useEffect(() => {
     if (storedFavorites == undefined) {

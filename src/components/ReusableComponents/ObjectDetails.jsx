@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import nullPoster from "../../resources/images/null.jpg";
+import AlertMessage from "./AlertMessage";
 
 function ObjectDetails(props) {
   let objectId = props.objectDetails;
@@ -17,6 +18,9 @@ function ObjectDetails(props) {
   const [rating, setRating] = useState();
   const [runtime, setRuntime] = useState();
   const [budget, setBudget] = useState();
+
+  const [alertMessage, setAlertMessage] = useState(undefined);
+  const [alertColor, setAlertColor] = useState("bg-danger");
 
   useEffect(() => {
     if (objectId !== undefined) {
@@ -99,15 +103,18 @@ function ObjectDetails(props) {
     if (storedFavorites === null) {
       generateStorage.push(objectId);
       localStorage.setItem("favorite", JSON.stringify(generateStorage));
-      alert(title + " has been added to your favorite list.");
+      setAlertColor("bg-primary");
+      setAlertMessage(title + " has been added to your favorite list.");
     } else {
       if (storedFavorites.includes(objectId)) {
-        alert(title + " is allready in your favorite list.");
+        setAlertColor("bg-primary");
+        setAlertMessage(title + " is allready in your favorite list.");
       } else {
         newFavoriteArray = storedFavorites;
         newFavoriteArray.push(objectId);
         localStorage.setItem("favorite", JSON.stringify(newFavoriteArray));
-        alert(title + " has been added to your favorite list.");
+        setAlertColor("bg-success");
+        setAlertMessage(title + " has been added to your favorite list.");
       }
     }
   };
@@ -126,62 +133,76 @@ function ObjectDetails(props) {
 
     localStorage.removeItem("favorite");
     localStorage.setItem("favorite", JSON.stringify(updateStorage));
-    alert(title + " has been removed from favorite list.");
+    setAlertColor("bg-danger");
+    setAlertMessage(title + " has been removed from favorite list.");
   };
 
   const renderComponent = () => {
     return (
-      <div className="container pt-3 pb-5 object-details-container">
-        {renderCloseButton()}
-        <div className="row pt-3">
-          <div className="col-5">
-            <img className="objectDetailsImg rounded" src={poster} />
-            <button
-              onClick={() => {
-                addMovieToFavoriteList();
-              }}
-              type="button"
-              className="btn btn-success w-100 mt-5"
-            >
-              ADD TO FAVORITE
-            </button>
-            <button
-              onClick={() => {
-                removeThisMovieFromFavoriteList();
-              }}
-              type="button"
-              className="btn btn-danger w-100 mt-5"
-            >
-              Remove favorite
-            </button>
-          </div>
-          <div className="col-5">
-            <p className="text-white roboto pt-3">{title}</p>
-            <p className="text-white roboto description pt-2">{description}</p>
-            <p className="text-white roboto description">
-              Release date: {releaseDate}
-            </p>
-            <p className="text-white roboto description">
-              Language: {language}
-            </p>
-            <p className="text-white roboto description">Runtime: {runtime}</p>
-            <p className="text-white roboto description">
-              <span className="text-warning">Budget: {checkBudget()} $</span>
-            </p>
-          </div>
-          <div className="col-2 text-center">
-            <p className="text-white">
-              <span className={chooseColorByRating()}>{rating}</span> / 10{" "}
-            </p>
+      <div>
+        <AlertMessage
+          AlertMessage={alertMessage}
+          alert={() => setAlertMessage(undefined)}
+          alertColor={alertColor}
+        />
+        <div className="overlay">
+          <div className="container pt-3 pb-5 object-details-container">
+            {renderCloseButton()}
+            <div className="row pt-3">
+              <div className="col-5">
+                <img className="objectDetailsImg rounded" src={poster} />
+                <button
+                  onClick={() => {
+                    addMovieToFavoriteList();
+                  }}
+                  type="button"
+                  className="btn btn-success w-100 mt-5"
+                >
+                  ADD TO FAVORITE
+                </button>
+                <button
+                  onClick={() => {
+                    removeThisMovieFromFavoriteList();
+                  }}
+                  type="button"
+                  className="btn btn-danger w-100 mt-5"
+                >
+                  Remove favorite
+                </button>
+              </div>
+              <div className="col-5">
+                <p className="text-white roboto pt-3">{title}</p>
+                <p className="text-white roboto description pt-2">
+                  {description}
+                </p>
+                <p className="text-white roboto description">
+                  Release date: {releaseDate}
+                </p>
+                <p className="text-white roboto description">
+                  Language: {language}
+                </p>
+                <p className="text-white roboto description">
+                  Runtime: {runtime}
+                </p>
+                <p className="text-white roboto description">
+                  <span className="text-warning">
+                    Budget: {checkBudget()} $
+                  </span>
+                </p>
+              </div>
+              <div className="col-2 text-center">
+                <p className="text-white">
+                  <span className={chooseColorByRating()}>{rating}</span> / 10{" "}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     );
   };
 
-  return (
-    <div className={isActive ? "overlay" : "none"}>{renderComponent()}</div>
-  );
+  return <div className={isActive ? "" : "none"}>{renderComponent()}</div>;
 }
 
 export default ObjectDetails;

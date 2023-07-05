@@ -2,6 +2,7 @@
 @import "fonts.css";
 @import "mediaQueries.css";
 @import "searchInputProperties.css";
+@import "alertMessageProperties.css";
 
 body {
   margin: 0;
