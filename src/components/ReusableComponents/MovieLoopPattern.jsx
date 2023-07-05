@@ -82,9 +82,9 @@ function MovieLoopPattern(props) {
             {convertDate()}
           </p>
           <figcaption>
-            <div className={isActive ? "none" : ""}>
-              <p className="text-center text-white castoro title">{title}</p>
-              <p className="text-center text-white description">{overview}</p>
+            <div className={isActive ? "none" : "text-center mobileMaxWidth"}>
+              <p className="text-white castoro title">{title}</p>
+              <p className="text-white description">{overview}</p>
             </div>
           </figcaption>
         </div>

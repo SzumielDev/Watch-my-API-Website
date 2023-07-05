@@ -18,6 +18,15 @@ function SearchInput(props) {
     handleIsInputEmpty();
   }, [inputValue]);
 
+  useEffect(() => {
+    if (requestData !== undefined) {
+      setIsActive(true);
+      renderSearchList();
+    } else {
+      setSearchResults(null);
+    }
+  }, [requestData]);
+
   const handleIsInputEmpty = () => {
     if (inputValue != undefined) {
       sendApiRequest();
@@ -41,15 +50,6 @@ function SearchInput(props) {
       });
   };
 
-  useEffect(() => {
-    if (requestData !== undefined) {
-      setIsActive(true);
-      renderSearchList();
-    } else {
-      setSearchResults(null);
-    }
-  }, [requestData]);
-
   const renderSearchList = () => {
     const searchComponentArray = requestData.results
       .slice(0, 3)
@@ -70,7 +70,7 @@ function SearchInput(props) {
   };
 
   return (
-    <div className="position-relative">
+    <div className="position-relative mobileDisplayOff">
       <form className="form-inline">
         <input
           className="form-control mr-sm-2"
