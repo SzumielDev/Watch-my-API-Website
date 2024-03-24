@@ -31,7 +31,7 @@ function Favorite(props) {
       }
     }, 1000);
     return () => clearInterval(interval);
-  });
+  }, []);
 
   const tryToRenderComponent = async () => {
     if (storedFavorites != undefined) {
